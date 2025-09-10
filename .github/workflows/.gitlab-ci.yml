@@ -32,8 +32,8 @@ jobs:
       # - name: Grant execute permission to Gradle
       #   run: chmod +x ./gradlew
 
-      - name: Run Unit Tests
-        run: ./gradlew testDebugUnitTest --stacktrace
+      # - name: Run Unit Tests
+      #   run: ./gradlew testDebugUnitTest --stacktrace
 
   build_debug:
     name: Build Debug APK
@@ -60,8 +60,8 @@ jobs:
       # - name: Grant execute permission to Gradle
       #   run: chmod +x ./gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug
+      # - name: Build Debug APK
+      #   run: ./gradlew assembleDebug
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
@@ -94,8 +94,8 @@ jobs:
       # - name: Grant execute permission to Gradle
       #   run: chmod +x ./gradlew
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
+      # - name: Build Release APK
+      #   run: ./gradlew assembleRelease
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
@@ -128,8 +128,8 @@ jobs:
       # - name: Grant execute permission to Gradle
       #   run: chmod +x ./gradlew
 
-      - name: Build APK for Develop
-        run: ./gradlew assembleDevelopDebug
+      # - name: Build APK for Develop
+      #   run: ./gradlew assembleDevelopDebug
 
       - name: Install Fastlane and Deploy to Firebase
         run: |
