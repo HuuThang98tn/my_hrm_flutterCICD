@@ -30,10 +30,10 @@ jobs:
           build-tools: "34.0.0"
 
       - name: Grant execute permission to Gradle
-        run: chmod +x ./android/gradlew
+        run: chmod +x ./gradlew
 
       - name: Run Unit Tests
-        run: ./android/gradlew testDebugUnitTest --stacktrace
+        run: ./gradlew testDebugUnitTest --stacktrace
 
   build_debug:
     name: Build Debug APK
@@ -58,10 +58,10 @@ jobs:
           build-tools: "34.0.0"
 
       - name: Grant execute permission to Gradle
-        run: chmod +x ./android/gradlew
+        run: chmod +x ./gradlew
 
       - name: Build Debug APK
-        run: ./android/gradlew assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
@@ -92,10 +92,10 @@ jobs:
           build-tools: "34.0.0"
 
       - name: Grant execute permission to Gradle
-        run: chmod +x ./android/gradlew
+        run: chmod +x ./gradlew
 
       - name: Build Release APK
-        run: ./android/gradlew assembleRelease
+        run: ./gradlew assembleRelease
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
@@ -126,10 +126,10 @@ jobs:
           build-tools: "34.0.0"
 
       - name: Grant execute permission to Gradle
-        run: chmod +x ./android/gradlew
+        run: chmod +x ./gradlew
 
       - name: Build APK for Develop
-        run: ./android/gradlew assembleDevelopDebug
+        run: ./gradlew assembleDevelopDebug
 
       - name: Install Fastlane and Deploy to Firebase
         run: |
