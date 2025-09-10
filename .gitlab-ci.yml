@@ -1,0 +1,63 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  ANDROID_HOME: "/sdk"
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+  PUB_CACHE: "$CI_PROJECT_DIR/.pub-cache"
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .gradle/
+    - .pub-cache/
+    - build/
+
+before_script:
+  - apt-get update && apt-get install -y curl unzip xz-utils zip libglu1-mesa ruby ruby-dev
+  - git clone https://github.com/flutter/flutter.git -b stable --depth 1
+  - export PATH="$PATH:$CI_PROJECT_DIR/flutter/bin"
+  - flutter doctor
+  - flutter pub get
+
+# 1️⃣ Chạy Unit Test
+test:
+  stage: test
+  script:
+    - flutter test --no-pub
+
+# 2️⃣ Build APK Debug (cho QA/tester)
+build_android_debug:
+  stage: build
+  script:
+    - flutter build apk --debug
+  artifacts:
+    paths:
+      - build/app/outputs/flutter-apk/app-debug.apk
+    expire_in: 1 week
+
+# 3️⃣ Build APK Release (ký phát hành)
+build_android_release:
+  stage: build
+  script:
+    - flutter build apk --release
+  artifacts:
+    paths:
+      - build/app/outputs/flutter-apk/app-release.apk
+    expire_in: 1 week
+
+# 4️⃣ Deploy lên Firebase (chỉ khi develop branch)
+deploy_firebase:
+  stage: deploy
+  only:
+    - develop
+  script:
+    - gem install fastlane
+    - fastlane android distribute_firebase
+  dependencies:
+    - build_android_release
+  environment:
+    name: develop
+  when: manual # Có thể click "play" để deploy thủ công
