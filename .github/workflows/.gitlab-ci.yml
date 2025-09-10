@@ -29,8 +29,8 @@ jobs:
           api-level: 34
           build-tools: "34.0.0"
 
-      - name: Grant execute permission to Gradle
-        run: chmod +x ./gradlew
+      # - name: Grant execute permission to Gradle
+      #   run: chmod +x ./gradlew
 
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest --stacktrace
@@ -57,8 +57,8 @@ jobs:
           api-level: 34
           build-tools: "34.0.0"
 
-      - name: Grant execute permission to Gradle
-        run: chmod +x ./gradlew
+      # - name: Grant execute permission to Gradle
+      #   run: chmod +x ./gradlew
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug
@@ -91,8 +91,8 @@ jobs:
           api-level: 34
           build-tools: "34.0.0"
 
-      - name: Grant execute permission to Gradle
-        run: chmod +x ./gradlew
+      # - name: Grant execute permission to Gradle
+      #   run: chmod +x ./gradlew
 
       - name: Build Release APK
         run: ./gradlew assembleRelease
@@ -125,8 +125,8 @@ jobs:
           api-level: 34
           build-tools: "34.0.0"
 
-      - name: Grant execute permission to Gradle
-        run: chmod +x ./gradlew
+      # - name: Grant execute permission to Gradle
+      #   run: chmod +x ./gradlew
 
       - name: Build APK for Develop
         run: ./gradlew assembleDevelopDebug
