@@ -26,13 +26,13 @@ jobs:
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.0"
+          flutter-version: "3.35.3" # Phiên bản tương thích Dart 3.8.x
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Run Unit Tests
-        run: flutter test
+        run: flutter test --no-pub
 
   build_debug:
     name: Build Debug APK
@@ -52,7 +52,7 @@ jobs:
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.0"
+          flutter-version: "3.35.3"
 
       - name: Install dependencies
         run: flutter pub get
@@ -84,7 +84,7 @@ jobs:
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.0"
+          flutter-version: "3.35.3"
 
       - name: Install dependencies
         run: flutter pub get
@@ -97,7 +97,7 @@ jobs:
         with:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
-# Optional: deploy
+# Optional: deploy to Firebase
 # deploy:
 #   name: Deploy to Firebase (develop branch)
 #   needs: [build_release]
@@ -114,7 +114,7 @@ jobs:
 #     - name: Install Flutter
 #       uses: subosito/flutter-action@v2
 #       with:
-#         flutter-version: "3.24.0"
+#         flutter-version: "3.35.3"
 #     - name: Install dependencies
 #       run: flutter pub get
 #     - name: Build APK for Develop
