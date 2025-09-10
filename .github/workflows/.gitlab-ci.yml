@@ -3,7 +3,7 @@ name: Flutter Android CI/CD
 on:
   push:
     branches:
-      - "**" # chạy trên mọi nhánh
+      - "**"
   pull_request:
     branches:
       - "**"
@@ -23,17 +23,17 @@ jobs:
           java-version: "21"
           distribution: "temurin"
 
-      - name: Grant execute permission to Gradle
-        run: chmod +x ./gradlew
-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
         with:
           api-level: 34
           build-tools: "34.0.0"
 
+      - name: Grant execute permission to Gradle
+        run: chmod +x ./android/gradlew
+
       - name: Run Unit Tests
-        run: ./gradlew testDebugUnitTest --stacktrace
+        run: ./android/gradlew testDebugUnitTest --stacktrace
 
   build_debug:
     name: Build Debug APK
@@ -51,23 +51,23 @@ jobs:
           distribution: "temurin"
           cache: gradle
 
-      - name: Grant execute permission to Gradle
-        run: chmod +x ./gradlew
-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
         with:
           api-level: 34
           build-tools: "34.0.0"
 
+      - name: Grant execute permission to Gradle
+        run: chmod +x ./android/gradlew
+
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: ./android/gradlew assembleDebug
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug.apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
 
   build_release:
     name: Build Release APK
@@ -85,23 +85,23 @@ jobs:
           distribution: "temurin"
           cache: gradle
 
-      - name: Grant execute permission to Gradle
-        run: chmod +x ./gradlew
-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
         with:
           api-level: 34
           build-tools: "34.0.0"
 
+      - name: Grant execute permission to Gradle
+        run: chmod +x ./android/gradlew
+
       - name: Build Release APK
-        run: ./gradlew assembleRelease
+        run: ./android/gradlew assembleRelease
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release.apk
-          path: app/build/outputs/apk/release/app-release.apk
+          path: android/app/build/outputs/apk/release/app-release.apk
 
   deploy:
     name: Deploy to Firebase (master branch)
@@ -119,17 +119,17 @@ jobs:
           java-version: "21"
           distribution: "temurin"
 
-      - name: Grant execute permission
-        run: chmod +x ./gradlew
-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
         with:
           api-level: 34
           build-tools: "34.0.0"
 
+      - name: Grant execute permission to Gradle
+        run: chmod +x ./android/gradlew
+
       - name: Build APK for Develop
-        run: ./gradlew assembleDevelopDebug
+        run: ./android/gradlew assembleDevelopDebug
 
       - name: Install Fastlane and Deploy to Firebase
         run: |
