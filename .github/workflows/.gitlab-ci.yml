@@ -23,17 +23,16 @@ jobs:
           java-version: "21"
           distribution: "temurin"
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
         with:
-          api-level: 34
-          build-tools: "34.0.0"
+          flutter-version: "3.24.0"
 
-      # - name: Grant execute permission to Gradle
-      #   run: chmod +x ./gradlew
+      - name: Install dependencies
+        run: flutter pub get
 
-      # - name: Run Unit Tests
-      #   run: ./gradlew testDebugUnitTest --stacktrace
+      - name: Run Unit Tests
+        run: flutter test
 
   build_debug:
     name: Build Debug APK
@@ -49,25 +48,23 @@ jobs:
         with:
           java-version: "21"
           distribution: "temurin"
-          cache: gradle
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
         with:
-          api-level: 34
-          build-tools: "34.0.0"
+          flutter-version: "3.24.0"
 
-      # - name: Grant execute permission to Gradle
-      #   run: chmod +x ./gradlew
+      - name: Install dependencies
+        run: flutter pub get
 
-      # - name: Build Debug APK
-      #   run: ./gradlew assembleDebug
+      - name: Build Debug APK
+        run: flutter build apk --debug
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug.apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
 
   build_release:
     name: Build Release APK
@@ -83,55 +80,46 @@ jobs:
         with:
           java-version: "21"
           distribution: "temurin"
-          cache: gradle
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
         with:
-          api-level: 34
-          build-tools: "34.0.0"
+          flutter-version: "3.24.0"
 
-      # - name: Grant execute permission to Gradle
-      #   run: chmod +x ./gradlew
+      - name: Install dependencies
+        run: flutter pub get
 
-      # - name: Build Release APK
-      #   run: ./gradlew assembleRelease
+      - name: Build Release APK
+        run: flutter build apk --release
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release.apk
-          path: android/app/build/outputs/apk/release/app-release.apk
-
-  # deploy:
-  #   name: Deploy to Firebase (develop branch)
-  #   needs: [build_release]
-  #   if: github.ref == 'refs/heads/develop'
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout source code
-  #       uses: actions/checkout@v4
-
-  #     - name: Set up JDK 21
-  #       uses: actions/setup-java@v4
-  #       with:
-  #         java-version: "21"
-  #         distribution: "temurin"
-
-  #     - name: Setup Android SDK
-  #       uses: android-actions/setup-android@v2
-  #       with:
-  #         api-level: 34
-  #         build-tools: "34.0.0"
-
-  #     # - name: Grant execute permission to Gradle
-  #     #   run: chmod +x ./gradlew
-
-  #     # - name: Build APK for Develop
-  #     #   run: ./gradlew assembleDevelopDebug
-
-  #     - name: Install Fastlane and Deploy to Firebase
-  #       run: |
-  #         gem install fastlane
-  #         fastlane android distribute_firebase
+          path: build/app/outputs/flutter-apk/app-release.apk
+# Optional: deploy
+# deploy:
+#   name: Deploy to Firebase (develop branch)
+#   needs: [build_release]
+#   if: github.ref == 'refs/heads/develop'
+#   runs-on: ubuntu-latest
+#   steps:
+#     - name: Checkout source code
+#       uses: actions/checkout@v4
+#     - name: Set up JDK 21
+#       uses: actions/setup-java@v4
+#       with:
+#         java-version: "21"
+#         distribution: "temurin"
+#     - name: Install Flutter
+#       uses: subosito/flutter-action@v2
+#       with:
+#         flutter-version: "3.24.0"
+#     - name: Install dependencies
+#       run: flutter pub get
+#     - name: Build APK for Develop
+#       run: flutter build apk --flavor develop --debug
+#     - name: Install Fastlane and Deploy to Firebase
+#       run: |
+#         gem install fastlane
+#         fastlane android distribute_firebase
