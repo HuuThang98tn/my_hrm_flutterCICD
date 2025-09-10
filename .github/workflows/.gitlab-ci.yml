@@ -3,10 +3,10 @@ name: Flutter Android CI/CD
 on:
   push:
     branches:
-      - '**'
+      - "**"
   pull_request:
     branches:
-      - '**'
+      - "**"
 
 jobs:
   test:
@@ -23,14 +23,9 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: "stable"
 
-      - uses: android-actions/setup-android@v2
-        with:
-          api-level: 34
-          build-tools: '34.0.0'
-
-      - name: Grant execute permission to Gradle
+      - name: Grant execute permission
         run: chmod +x gradlew
         working-directory: android
 
@@ -54,12 +49,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
-
-      - uses: android-actions/setup-android@v2
-        with:
-          api-level: 34
-          build-tools: '34.0.0'
+          flutter-version: "stable"
 
       - name: Grant execute permission
         run: chmod +x gradlew
@@ -74,9 +64,10 @@ jobs:
           name: app-debug.apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
-  build_release:
-    name: Build Release APK
-    needs: [test]
+  deploy:
+    name: Deploy to Firebase (develop branch)
+    needs: [build_debug]
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
 
     steps:
@@ -86,26 +77,20 @@ jobs:
         with:
           java-version: "21"
           distribution: "temurin"
-          cache: gradle
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
-
-      - uses: android-actions/setup-android@v2
-        with:
-          api-level: 34
-          build-tools: '34.0.0'
+          flutter-version: "stable"
 
       - name: Grant execute permission
         run: chmod +x gradlew
         working-directory: android
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
+      - name: Build APK for Develop
+        run: ./gradlew assembleDevelopDebug
         working-directory: android
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: app-release.apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+      - name: Install Fastlane and Deploy
+        run: |
+          gem install fastlane
+          fastlane android distribute_firebase
