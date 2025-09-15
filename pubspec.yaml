@@ -34,6 +34,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  flutter_face_api: ^7.1.325
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +48,36 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   camera: any
   permission_handler: ^11.3.1
+  # TensorFlow Lite for running AI models
+  # tflite_flutter: ^0.10.4
+  google_mlkit_face_detection: ^0.11.0 # phát hiện khuôn mặt
+  # Image processing
+  image: ^4.5.2
+  image_picker: ^1.1.2
+  tflite_flutter: 0.11.0
+
+  # TensorFlow Lite - sử dụng version ổn định hơn
+  # tflite_flutter: ^0.9.0
+  # Image processing
+  # image: ^4.2.0
+
+  # Camera functionality
+
+  # Image picker (gallery/camera)
+  # image_picker: ^1.0.4
+
+  # Path provider for file operations
+  path_provider: ^2.1.1
+
+  # Shared preferences for storing settings
+  shared_preferences: ^2.2.2
+
+  # Permission handler
+  # HTTP client (if need to download models)
+  http: ^1.1.0
+
+  # UUID for generating unique IDs
+  uuid: ^4.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -62,6 +93,19 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/thinh.jpg
+    - assets/thang.jpg
+    - assets/thang2.jpg
+    - assets/thinh2.jpg
+    - assets/thinh3.jpg
+    - assets/tan.jpg
+    - assets/thinh4.jpg
+    - assets/image.jpeg
+    - assets/img1.png
+    - assets/hieu.jpg
+    - assets/facenet.tflite
+    - assets/facenetid.tflite
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
